@@ -7,18 +7,18 @@ server.use(express.json());
 // POST /api/users:
 server.post("/api/users", (req, res) => {
     const newUser = req.body;
-    db
+    if (!newUser.name || !newUser.bio) {
+        res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
+    } else {
+        db
         .insert(newUser)
         .then(users => {
-            if (!newUser.name || !newUser.bio) {
-                res.status(400).json({ errorMessage: "Please provide name and bio for the user." })
-            } else {
                 res.status(201).json({users})
-            }
         })
         .catch(err => {
             res.status(500).json({ error: "There was an error while saving the user to the database" })
         })
+    }
 });
 
 // GET /api/users:
