@@ -2,6 +2,7 @@
 const express = require("express");
 const db = require("./data/db.js");
 const server = express();
+require("dotenv").config();
 server.use(express.json());
 
 // POST /api/users:
@@ -88,7 +89,8 @@ server.put("/api/users/:id", (req, res) => {
     }
 });
 
-server.listen(4000, () => {
-    console.log("\n*** Running on port 4000 ***\n")
+const port = process.env.port || 4000;
+server.listen(port, () => {
+    console.log(`\n*** Running on port ${port} ***\n`)
 })
 
